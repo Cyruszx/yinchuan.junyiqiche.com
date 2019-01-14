@@ -35,10 +35,9 @@ class Index extends Frontend
         $contestant = Application::field('id,name,applicationimages,votes')
             ->with(['wechatUser' => function ($q) {
                 $q->withField('id,sex');
-            }])->where(['status' => 'normal'])->paginate(10);
+            }])->where(['status' => 'normal'])->order('id desc')->paginate(10);
 
 
-//        pr($_SERVER);die;
         $pages = $contestant->render();
 
         $contestant = $contestant->toArray();
@@ -317,7 +316,7 @@ class Index extends Frontend
         //判断该用户是否报过名
         $is_application = 0;
 
-        if ($this->user_id==false) {
+        if ($this->user_id==true) {
             //已经投票的ID
             $voted_id = Record::where('wechat_user_id', $this->user_id)->whereTime('votetime', 'today')->column('application_id');
 
@@ -336,6 +335,9 @@ class Index extends Frontend
                 $is_application = 1;
             }
         }
+
+        $backMusicUrl = ConfigModel::get(['name'=>'link'])->value;
+        $backMusicSwitch = ConfigModel::get(['name'=>'switch'])->value;
         
         return [
             'bannerList' => $bannerList,
@@ -344,6 +346,10 @@ class Index extends Frontend
                 'applicationCount' => $applicationCount,
                 'voteCount' => $voteCount,
                 'visitCount' => $visitCount
+            ],
+            'backGroundMusic'=>[
+                'url'=>$backMusicUrl,
+                'switch'=>$backMusicSwitch
             ],
             'is_application' => $is_application,
             'isTodayVote' => $isTodayVote,
@@ -388,7 +394,7 @@ class Index extends Frontend
         $contestant = collection(Application::field($field)
             ->with(['wechatUser' => function ($q) {
                 $q->withField('id,sex');
-            }])->where($where)->page($page)->select($select))->toArray();
+            }])->where($where)->order('id desc')->page($page)->select($select))->toArray();
 
         foreach ($contestant as $k => $v) {
             $contestant[$k]['applicationimages'] = $v['applicationimages'] ? explode(';', $v['applicationimages'])[0] : '';
@@ -396,7 +402,7 @@ class Index extends Frontend
         }
 
 
-        if ($this->user_id==false) {
+        if ($this->user_id==true) {
             //已经投票的ID
             $voted_id = Record::where('wechat_user_id', $this->user_id)->whereTime('votetime', 'today')->column('application_id');
 
