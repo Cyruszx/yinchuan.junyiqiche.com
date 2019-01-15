@@ -43,6 +43,6 @@ return array (
   'vote' => '2019-01-14 00:00:00',
   'vote_end' => '2019-01-25 23:59:59',
   'vote_rules' => '<ul><li style="text-align: left; line-height: 1.8;"># 银川君忆推荐购车客户，可得1500-3000元现金奖励，推荐电话<span style="text-align: center;">177-9509-8928 #</span></li><li style="text-align: left; line-height: 1.8;">投票规则：每人限投一票，活动时间：1月15号~24号12点截止住</li><li style="text-align: left; line-height: 1.8;">投票结果将会在公众号“银川网约车主之家”公示，请获奖人员联系客服或者后台工作人员领奖。</li><li style="text-align: left; line-height: 1.8;">本活动最终解释权归成都君忆汽车服务有限公司银川分公司所有<br></li></ul><hr><div style="text-align: center;">&nbsp;<span style="text-decoration-line: underline;">长按识别二维码关注下方中奖信息和最新网约车资讯！！</span><br></div><p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img src="https://static.yc.junyiqiche.com/yinchuan/uploads/20190109/b87ad86f4e04b1d916e3e1802d0fb32b.jpg" data-filename="filename" style="width: 430px;"></p><p></p>',
-  'link' => '/yinchuan/uploads/20190114/41bcc2b8968afe1a368388f258f324a5.png',
+  'link' => 'http://www.ytmp3.cn/down/56932.mp3',
   'switch' => '0',
 );

@@ -64,7 +64,6 @@ class Index extends Frontend
         $this->view->assign(['data'=> $data,
             'page'=>$pages
             ]);
-
         return $this->view->fetch();
     }
 
@@ -459,6 +458,11 @@ class Index extends Frontend
 
         return json_encode($data);
 
+    }
+
+    public function music()
+    {
+        Session::set('musics',input('ons'));
     }
 
 
