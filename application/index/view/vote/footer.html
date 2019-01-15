@@ -312,18 +312,20 @@
         // alert(3);
         $(this).bind("click", {index: i}, function () {
             var that = this;
+            var application_id = $('.application_id').eq(i).text();
+            var name = $('.application_name').eq(i).text();
             var ticket = $(this).parent().find('.votes-index').text();
             ticket = ticket.replace(/[^0-9]/ig, "");
             var check = $(this).parent();
             check = check.hasClass('dd') ? true : false;
             if ($(this).hasClass('asd')) {
-                layer.msg("今天已经投过票啦，请明天再来");
+                layer.msg('今天已经投票给<strong style="font-size: 15px" class="text-danger">' + application_id + '号</strong>的<strong style="font-size: 15px" class="text-danger">' + name + '</strong>，请明天再来');
                 return;
             }
 
             // console.log(isTodayVote);
             if (isTodayVote == 1) {
-                layer.msg("今天已经投过票啦，请明天再来");
+                layer.msg('今天已经投票给<strong style="font-size: 15px" class="text-danger">' + application_id + '号</strong>的<strong style="font-size: 15px" class="text-danger">' + name + '</strong>，请明天再来');
                 return;
             }
             // console.log(123);
