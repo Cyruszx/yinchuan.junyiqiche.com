@@ -3,7 +3,7 @@
 </div>
 </div>
 <style>
-   .footer_box .item.active_s {
+    .footer_box .item.active_s {
         background-color: #5bc0de;
     }
 </style>
@@ -78,6 +78,29 @@
                 console.log("通信失败");
             }
         });
+
+        $(document).on('click', '#music', function () {
+            var img = $('#music').find('#images');
+
+            if (img.attr('src') == 'https://static.yc.junyiqiche.com/yinchuan/mp3_log_img/on1.png') {
+                $('#music').find('audio').trigger('pause');
+                img.attr('src','https://static.yc.junyiqiche.com/yinchuan/mp3_log_img/off1.png');
+            }else{
+                $('#music').find('audio').trigger('play');
+                $(this).find('img').attr('src','https://static.yc.junyiqiche.com/yinchuan/mp3_log_img/on1.png');
+            }
+        })
+        //--创建页面监听，等待微信端页面加载完毕 触发音频播放
+        document.addEventListener('WeixinJSBridgeReady', function() {
+            // alert(3);
+            $('#music').find('audio').trigger('play');
+            // document.getElementById('audios').play()
+        })
+        // document.addEventListener('touchstart', function() {
+        //     // document.getElementById('audios').play()
+        //     $('#music').find('audio').trigger('play');
+        // })
+
     }
 
 
@@ -161,7 +184,7 @@
         //排名ID
         var count = 1;
 
-        
+
         // flow.load({
         //     elem: '#index-flex' //流加载容器
         //     // , scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
@@ -211,7 +234,7 @@
         // });
 
         var allCount = '{$data.statistics.applicationCount}';
-        allCount = Math.ceil(parseInt(allCount)/25);
+        allCount = Math.ceil(parseInt(allCount) / 25);
         flow.load({
             elem: '.user-list' //流加载容器
             // , scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
@@ -326,7 +349,7 @@
                     // $('.votes').html("票数是：" + "{$data['playerDetail']['votes'] + 1}" + "票");
                     $(that).parent().find('.votes-index').html(html);
                     var voteCount = $('.voteCount').text();
-                    $('.voteCount').text(parseInt(voteCount)+1);
+                    $('.voteCount').text(parseInt(voteCount) + 1);
                     $(".voting").each(function (i) {
                         $(this).addClass('asd');
                     });
@@ -340,9 +363,9 @@
         })
     });
 
-    $('#details').click(function(){
+    $('#details').click(function () {
 
-        var ajaxurl ='{:url("index/details")}';
+        var ajaxurl = '{:url("index/details")}';
         var user_id = "{$user_id}";
 
         $.ajax({
@@ -350,9 +373,9 @@
             url: ajaxurl,
             type: "post",
             //注意序列化的值一定要放在最前面,并且不需要头部变量,不然获取的值得格式会有问题
-            data:{user_id: user_id},
-            dataType:"json",
-            success:function (data) {
+            data: {user_id: user_id},
+            dataType: "json",
+            success: function (data) {
                 data = JSON.parse(data);
 
                 // layer.msg(data);
@@ -362,28 +385,31 @@
                     area: ['300px', '500px'], //宽高
                     content: '<div class="row text-center" style="margin: 0">' +
 
+
+
                         '<div class="layui-col-xs12 applicationimages" style="margin-bottom: 10px">'+
                             '<img src="{$_SERVER.REQUEST_SCHEME}://{$_SERVER.SERVER_NAME}/' + data.applicationimages + '" alt="...">'+
                         '</div>'+
 
+
                         '<div class="layui-col-xs12 text-center"  id="details" style="margin-bottom: 10px">' +
-                            '<div>姓名：' + data.name + '</div>' +
-                            '<div >加入车型：' + data.model + '</div>' +
-                            '<div >日均流水：' + data.daily_running_water + '</div>' +
-                            '<div ">服务分： ' + data.service_points + '</div>' +
-                            '<div ">自我描述：' + data.describe_yourself + '</div>' +
+                        '<div>姓名：' + data.name + '</div>' +
+                        '<div >加入车型：' + data.model + '</div>' +
+                        '<div >日均流水：' + data.daily_running_water + '</div>' +
+                        '<div ">服务分： ' + data.service_points + '</div>' +
+                        '<div ">自我描述：' + data.describe_yourself + '</div>' +
                         '</div>' +
                         '<div class="layui-col-xs12 text-center" style="margin-bottom: 10px">' +
-                            '<div style="color: orange" class="votes">票数是：' + data.votes + '票</div>' +
+                        '<div style="color: orange" class="votes">票数是：' + data.votes + '票</div>' +
                         '</div>' +
 
                         '</div>',
                 });
 
             },
-    
+
         });
-        
+
     });
 
 </script>
