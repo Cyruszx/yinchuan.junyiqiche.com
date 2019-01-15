@@ -316,7 +316,10 @@ class Index extends Frontend
         //判断该用户是否报过名
         $is_application = 0;
 
-        if ($this->user_id==true) {
+
+
+        if ($this->user_id == true) {
+
             //已经投票的ID
             $voted_id = Record::where('wechat_user_id', $this->user_id)->whereTime('votetime', 'today')->column('application_id');
 
