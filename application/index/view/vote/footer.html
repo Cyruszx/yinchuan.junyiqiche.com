@@ -300,9 +300,13 @@
         // alert(3);
         var ii;
         $(this).bind("click", {index: i}, function () {
+
+
+
             var index = layer.load(1, {
                 shade: [0.1, '#fff'] //0.1透明度的白色背景
             });
+
             var that = this;
           
             var ticket = $(this).parent().find('.votes-index').text();
@@ -326,6 +330,7 @@
                 layer.msg('今天已经投票给<strong style="font-size: 15px; color: yellow">' + application_id + '号</strong>的<strong style="font-size: 15px; color: yellow" >' + application_name + '</strong>，请明天再来');
                 return;
             }
+            var indexLoad = layer.load();
             // console.log(123);
             var ajaxurl = '{:url("index/vote")}';
             var application_id = $('.application_id').eq(i).text();
@@ -339,7 +344,9 @@
                 data: {application_id: application_id, user_id: user_id},
                 dataType: "json",
                 success: function (data) {
+
                     layer.close(index);
+
                     layer.msg(data);
                     localStorage.setItem("application_id", application_id);
                     localStorage.setItem("application_name", application_name);
