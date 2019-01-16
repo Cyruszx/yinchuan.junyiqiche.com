@@ -362,7 +362,7 @@
             
                 var application_name = localStorage.getItem("application_name");  
                 var application_id = localStorage.getItem("application_id");  
-                layer.msg('今天已经投票给<strong style="font-size: 15px" class="text-danger">' + application_id + '号</strong>的<strong style="font-size: 15px" class="text-danger">' + application_name + '</strong>，请明天再来');
+                layer.msg('今天已经投票给<strong style="font-size: 15px; color: yellow" >' + application_id + '号</strong>的<strong style="font-size: 15px; color: yellow" >' + application_name + '</strong>，请明天再来');
                 return;
             }
 
@@ -370,7 +370,7 @@
             if (isTodayVote == 1) {
                 var application_name = localStorage.getItem("application_name");  
                 var application_id = localStorage.getItem("application_id"); 
-                layer.msg('今天已经投票给<strong style="font-size: 15px" class="text-danger">' + application_id + '号</strong>的<strong style="font-size: 15px" class="text-danger">' + application_name + '</strong>，请明天再来');
+                layer.msg('今天已经投票给<strong style="font-size: 15px; color: yellow">' + application_id + '号</strong>的<strong style="font-size: 15px; color: yellow" >' + application_name + '</strong>，请明天再来');
                 return;
             }
             // console.log(123);
@@ -429,8 +429,9 @@
                 // layer.msg(data);
                 layer.open({
                     type: 1,
-                    skin: 'layui-layer-rim', //加上边框
-                    area: ['300px', '500px'], //宽高
+                    title:'我的报名信息',
+                    // skin: 'layui-layer-rim', //加上边框
+                    area: ['80%', '80%'], //宽高
                     content: '<div class="row text-center" style="margin: 0">' +
 
 
