@@ -95,8 +95,9 @@ class Index extends Frontend
     public  function sendVote(){
       if($this->request->isPost()){
           $res = new Application();
-
-          $data =  $res->allowField(true)->save($this->request->post()['datas']);
+          $data_new = $this->request->post()['datas'];
+          $data_new['name'] = emoji_encode($data_new['name']);
+          $data =  $res->allowField(true)->save($data_new);
           if($data){
               $this->success('报名成功！');
           }else{
