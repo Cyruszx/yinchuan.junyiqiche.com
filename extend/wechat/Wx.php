@@ -213,6 +213,7 @@ class Wx
         $_SESSION["wx_state"]    =   $state; //存到SESSION
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->appid}&redirect_uri={$backUrl}&response_type=code&scope=snsapi_userinfo&state={$state}#wechat_redirect";
         header('Location:'.$url);
+
         die();
     }
     /** 生成带参数的二维码
