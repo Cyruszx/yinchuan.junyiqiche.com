@@ -7,6 +7,7 @@ use think\Config;
 use think\Controller;
 use think\Hook;
 use think\Lang;
+use app\wechat\controller\Wechat;
 use app\common\model\Config as ConfigModel;
 use think\Session;
 use wechat\Wx;
@@ -49,8 +50,6 @@ class Frontend extends Controller
     {
 
         //微信登陆验证
-        $appid = $this->appid = Config::get('APPID');
-        $secret = $this->secret = Config::get('APPSECRET');
         if(!session('MEMBER')){
             $wx = new Wechat();
             $wx->getCodes();
@@ -130,7 +129,7 @@ class Frontend extends Controller
         $this->assign('site', $site);
         $this->assign('config', $config);
         $user_id = session('MEMBER');
-        $this->user_id = $user_id ? $user_id->getData()['id'] : 0;
+        $this->user_id = $user_id ? $user_id['id'] : 0;
         $this->assign('user_id', $this->user_id);
 
         //卡片分享参数
