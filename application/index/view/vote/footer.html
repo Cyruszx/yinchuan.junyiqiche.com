@@ -347,6 +347,7 @@
     $(".voting").each(function (i) {
         // alert(3);
         $(this).bind("click", {index: i}, function () {
+
             var that = this;
             var application_id = $('.application_id').eq(i).text();
             var name = $('.application_name').eq(i).text();
@@ -364,6 +365,7 @@
                 layer.msg('今天已经投票给<strong style="font-size: 15px" class="text-danger">' + application_id + '号</strong>的<strong style="font-size: 15px" class="text-danger">' + name + '</strong>，请明天再来');
                 return;
             }
+            var indexLoad = layer.load();
             // console.log(123);
             var ajaxurl = '{:url("index/vote")}';
             var application_id = $('.application_id').eq(i).text();
@@ -377,7 +379,7 @@
                 data: {application_id: application_id, user_id: user_id},
                 dataType: "json",
                 success: function (data) {
-
+                    layer.close(indexLoad);
                     layer.msg(data);
 
                     var html = !check ? '<i class="fa fa-line-chart"\n' +
