@@ -365,7 +365,7 @@
     });
 
     $('#details').click(function () {
-
+        var lod= layer.load();
         var ajaxurl = '{:url("index/details")}';
         var user_id = "{$user_id}";
 
@@ -377,6 +377,7 @@
             data: {user_id: user_id},
             dataType: "json",
             success: function (data) {
+                layer.close(lod);
                 data = JSON.parse(data);
 
                 // layer.msg(data);
