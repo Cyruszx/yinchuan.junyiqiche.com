@@ -412,7 +412,7 @@
     });
 
     $('#details').click(function () {
-
+        var lod= layer.load();
         var ajaxurl = '{:url("index/details")}';
         var user_id = "{$user_id}";
 
@@ -424,6 +424,7 @@
             data: {user_id: user_id},
             dataType: "json",
             success: function (data) {
+                layer.close(lod);
                 data = JSON.parse(data);
 
                 // layer.msg(data);
@@ -436,7 +437,7 @@
 
 
                         '<div class="layui-col-xs12 applicationimages" style="margin-bottom: 10px">' +
-                        '<img src="{$_SERVER.REQUEST_SCHEME}://{$_SERVER.SERVER_NAME}/' + data.applicationimages + '" alt="...">' +
+                        '<img src="{$_SERVER.REQUEST_SCHEME}://{$_SERVER.SERVER_NAME}/' + data.applicationimages + '" alt="..." style="width: 100%;height: auto">' +
                         '</div>' +
 
 
