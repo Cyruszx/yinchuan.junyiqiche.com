@@ -300,9 +300,7 @@
         // alert(3);
         var ii;
         $(this).bind("click", {index: i}, function () {
-
             var that = this;
-          
             var ticket = $(this).parent().find('.votes-index').text();
             ticket = ticket.replace(/[^0-9]/ig, "");
             var check = $(this).parent();
@@ -312,21 +310,20 @@
             if ($(this).hasClass('asd')) {
             
                 var application_name = localStorage.getItem("application_name");  
-                var application_id = localStorage.getItem("application_id");  
+                var application_id = localStorage.getItem("application_id");
                 layer.msg('今天已经投票给<strong style="font-size: 15px;color: yellow" class="">' + application_id + '号</strong>的<strong style="font-size: 15px;color: yellow" class="">' + application_name + '</strong>，请明天再来');
+
                 return;
             }
 
             // console.log(isTodayVote);
             if (isTodayVote == 1) {
                 var application_name = localStorage.getItem("application_name");  
-                var application_id = localStorage.getItem("application_id"); 
-                layer.msg('今天已经投票给<strong style="font-size: 15px;color: yellow" class="text-warning">' + application_id + '号</strong>的<strong style="font-size: 15px;color: yellow" class="">' + application_name + '</strong>，请明天再来');
+                var application_id = localStorage.getItem("application_id");
+                layer.msg('今天已经投票给<strong style="font-size: 15px; color: yellow">' + application_id + '号</strong>的<strong style="font-size: 15px; color: yellow" >' + application_name + '</strong>，请明天再来');
                 return;
             }
-            var loadLayer = layer.load(1, {
-                shade: [0.1, '#fff'] //0.1透明度的白色背景
-            });
+            var indexLoad = layer.load();
             // console.log(123);
             var ajaxurl = '{:url("index/vote")}';
             var application_id = $('.application_id').eq(i).text();
@@ -340,7 +337,7 @@
                 data: {application_id: application_id, user_id: user_id},
                 dataType: "json",
                 success: function (data) {
-                    layer.close(loadLayer);
+                    layer.close(indexLoad);
                     layer.msg(data);
                     localStorage.setItem("application_id", application_id);
                     localStorage.setItem("application_name", application_name);
@@ -359,8 +356,7 @@
                 },
                 error: function (data) {
                     // alert(data);
-                    layer.close(loadLayer);
-
+                    layer.close(indexLoad);
                     layer.msg(data);
                 }
             })
@@ -368,7 +364,7 @@
     });
 
     $('#details').click(function () {
-
+        var lod= layer.load();
         var ajaxurl = '{:url("index/details")}';
         var user_id = "{$user_id}";
 
@@ -380,11 +376,13 @@
             data: {user_id: user_id},
             dataType: "json",
             success: function (data) {
+                layer.close(lod);
                 data = JSON.parse(data);
 
                 // layer.msg(data);
                 layer.open({
                     type: 1,
+                    title:'我的报名信息',
                     // skin: 'layui-layer-rim', //加上边框
                     area: ['80%', '80%'], //宽高
                     content: '<div class="row text-center" style="margin: 0">' +
