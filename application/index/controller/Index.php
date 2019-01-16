@@ -97,6 +97,8 @@ class Index extends Frontend
           $res = new Application();
           $data_new = $this->request->post()['datas'];
           $data_new['name'] = emoji_encode($data_new['name']);
+          $data_new['describe_yourself'] = emoji_encode($data_new['describe_yourself']);
+
           $data =  $res->allowField(true)->save($data_new);
           if($data){
               $this->success('报名成功！');
@@ -121,8 +123,8 @@ class Index extends Frontend
         $root['url'] = $url;
         //获取access_token，并缓存
         $file = RUNTIME_PATH . '/access_token';//缓存文件名access_token
-        $appid = Config::get('APPID'); // 填写自己的appid
-        $secret = Config::get('APPSECRET'); // 填写自己的appsecret
+        $appid = Config::get('oauth')['appid']; // 填写自己的appid
+        $secret = Config::get('oauth')['appsecret']; // 填写自己的appsecret
         $expires = 3600;//缓存时间1个小时
         if (file_exists($file)) {
             $time = filemtime($file);
@@ -435,7 +437,7 @@ class Index extends Frontend
         $info = $this->playerInfo(['status' => 'normal'], 'id,name,applicationimages,votes,model,daily_running_water,service_points,describe_yourself', $application_id);
 
         $data = array_merge($this->publicData(), ['playerDetail' => $info[0]]);
-
+        $data['describe_yourself'] = emoji_decode($data['describe_yourself']);
         $this->view->assign('data', $data);
 
         return $this->view->fetch();
