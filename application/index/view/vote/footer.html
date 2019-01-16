@@ -336,6 +336,8 @@
 
     var isTodayVote = "{$data.isTodayVote}";
     if (isTodayVote == 0) {
+        localStorage.removeItem("application_name");
+        localStorage.removeItem("application_id");
         $(".voting").each(function (i) {
             if ($(this).hasClass('asd')) {
                 $(this).removeClass('asd');
@@ -346,22 +348,29 @@
     //投票
     $(".voting").each(function (i) {
         // alert(3);
+        var ii;
         $(this).bind("click", {index: i}, function () {
             var that = this;
-            var application_id = $('.application_id').eq(i).text();
-            var name = $('.application_name').eq(i).text();
+          
             var ticket = $(this).parent().find('.votes-index').text();
             ticket = ticket.replace(/[^0-9]/ig, "");
             var check = $(this).parent();
             check = check.hasClass('dd') ? true : false;
+            var application_id = $('.application_id').eq(i).text();
+            var application_name = $('.application_name').eq(i).text();
             if ($(this).hasClass('asd')) {
-                layer.msg('今天已经投票给<strong style="font-size: 15px" class="text-danger">' + application_id + '号</strong>的<strong style="font-size: 15px" class="text-danger">' + name + '</strong>，请明天再来');
+            
+                var application_name = localStorage.getItem("application_name");  
+                var application_id = localStorage.getItem("application_id");  
+                layer.msg('今天已经投票给<strong style="font-size: 15px" class="text-danger">' + application_id + '号</strong>的<strong style="font-size: 15px" class="text-danger">' + application_name + '</strong>，请明天再来');
                 return;
             }
 
             // console.log(isTodayVote);
             if (isTodayVote == 1) {
-                layer.msg('今天已经投票给<strong style="font-size: 15px" class="text-danger">' + application_id + '号</strong>的<strong style="font-size: 15px" class="text-danger">' + name + '</strong>，请明天再来');
+                var application_name = localStorage.getItem("application_name");  
+                var application_id = localStorage.getItem("application_id"); 
+                layer.msg('今天已经投票给<strong style="font-size: 15px" class="text-danger">' + application_id + '号</strong>的<strong style="font-size: 15px" class="text-danger">' + application_name + '</strong>，请明天再来');
                 return;
             }
             // console.log(123);
@@ -379,7 +388,8 @@
                 success: function (data) {
 
                     layer.msg(data);
-
+                    localStorage.setItem("application_id", application_id);
+                    localStorage.setItem("application_name", application_name);
                     var html = !check ? '<i class="fa fa-line-chart"\n' +
                         '                                                                                       aria-hidden="true"></i>' + (parseInt(ticket) + 1) + ' 票' : '票数是：' + (parseInt(ticket) + 1) + '票';
 
