@@ -32,7 +32,7 @@ class Index extends Frontend
 
 //        $contestant = $this->playerInfo(['status' => 'normal'], 'id,name,applicationimages,votes');
 
-        $contestant = Application::field('id,name,applicationimages,votes')
+        $contestant = Application::field('id,name,applicationimages,votes,describe_yourself')
             ->with(['wechatUser' => function ($q) {
                 $q->withField('id,sex');
             }])->where(['status' => 'normal'])->order('id desc')->paginate(10);
@@ -64,6 +64,7 @@ class Index extends Frontend
         $this->view->assign(['data'=> $data,
             'page'=>$pages
             ]);
+//        pr($data);die;
         return $this->view->fetch();
     }
 
