@@ -43,6 +43,6 @@ return array (
   'vote' => '2019-01-14 00:00:00',
   'vote_end' => '2019-01-25 23:59:59',
   'vote_rules' => '<p><img src="https://static.yc.junyiqiche.com/yinchuan/uploads/20190116/97e8665fa5df94f70b371e9020726da9.png" data-filename="filename" style="width: 689px;"><br></p>',
-  'link' => 'https://m10.music.126.net/20190116151303/e2e42817529570d2889aec7aa8198d58/ymusic/5605/07fd/b516/a10d9e248c19d9ac2d40d2b0596fc09b.mp3',
+  'link' => 'http://other.web.ra01.sycdn.kuwo.cn/resource/n3/128/95/48/582978519.mp3',
   'switch' => '1',
 );
