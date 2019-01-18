@@ -49,7 +49,7 @@ class Index extends Frontend
 
         $arr = array_values(arraySort($contestant['data'], 'votes', 1));
 
-        $arr = [array_merge($arr[0],['prize'=>'qwewqeqwqwe']), array_merge($arr[1],['prize'=>'qwewqeqwqwe']), array_merge($arr[2],['prize'=>'qwewqeqwqwe']),array_merge($arr[3],['prize'=>'qwewqeqwqwe']),array_merge($arr[4],['prize'=>'qwewqeqwqwe'])];
+        $arr = [array_merge($arr[0],['prize'=>'https://static.yc.junyiqiche.com/uploads/top1.png']), array_merge($arr[1],['prize'=>'https://static.yc.junyiqiche.com/uploads/top2.png']), array_merge($arr[2],['prize'=>'https://static.yc.junyiqiche.com/uploads/top3.png'])];
 
         foreach ($contestant['data'] as $k => $v) {
             foreach ($arr as $key=>$value){
