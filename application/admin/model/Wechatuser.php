@@ -20,6 +20,11 @@ class Wechatuser extends Model
     protected $append = [
 
     ];
+
+    public function application()
+    {
+        return $this->hasOne('Application','wechat_user_id','id',[],'LEFT')->setEagerlyType(0);
+    }
     
 
     
