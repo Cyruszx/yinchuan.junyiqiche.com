@@ -35,7 +35,7 @@ class Index extends Frontend
         $contestant = Application::field('id,name,applicationimages,votes,describe_yourself')
             ->with(['wechatUser' => function ($q) {
                 $q->withField('id,sex');
-            }])->where(['status' => 'normal'])->order('id desc')->paginate(10);
+            }])->where(['status' => 'normal'])->order('id desc')->paginate(20);
 
 
         $pages = $contestant->render();
@@ -44,16 +44,31 @@ class Index extends Frontend
         foreach ($contestant['data'] as $k => $v) {
             $contestant['data'][$k]['applicationimages'] = $v['applicationimages'] ? explode(';', $v['applicationimages'])[0] : '';
             $contestant['data'][$k]['is_vote'] = 0;
+
         }
 
+        $arr = array_values(arraySort($contestant['data'], 'votes', 1));
 
+        $arr = [array_merge($arr[0],['prize'=>'https://static.yc.junyiqiche.com/uploads/top1.png']), array_merge($arr[1],['prize'=>'https://static.yc.junyiqiche.com/uploads/top2.png']), array_merge($arr[2],['prize'=>'https://static.yc.junyiqiche.com/uploads/top3.png'])];
+
+        foreach ($contestant['data'] as $k => $v) {
+            foreach ($arr as $key=>$value){
+                if($v['id']==$value['id']){
+                    unset($contestant['data'][$k]);
+                }
+            }
+        }
+        $as = $contestant['data'];
+        $contestant['data'] = [];
+        $contestant['data']['prize'] = $arr;
+        $contestant['data']['normal'] = $as;
         if (!$this->user_id) {
             //已经投票的ID
             $voted_id = Record::where('wechat_user_id', $this->user_id)->whereTime('votetime', 'today')->column('application_id');
 
             if ($voted_id) {
-                foreach ($contestant['data'] as $k => $v) {
-                    $contestant['data'][$k]['is_vote'] = in_array($v['id'], $voted_id) ? 1 : 0;
+                foreach ($contestant['data']['normal'] as $k => $v) {
+                    $contestant['data']['normal'][$k]['is_vote'] = in_array($v['id'], $voted_id) ? 1 : 0;
                 }
             }
 

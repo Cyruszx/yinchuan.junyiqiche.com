@@ -708,3 +708,19 @@ if (!function_exists('emoji_decode')) {
         return $strDecode;
     }
 }
+
+if (!function_exists('arraySort')) {
+    function arraySort($array, $keys, $sort = 'asc')
+    {
+        $newArr = $valArr = array();
+        foreach ($array as $key => $value) {
+            $valArr[$key] = $value[$keys];
+        }
+        ($sort == 'asc') ? asort($valArr) : arsort($valArr);//先利用keys对数组排序，目的是把目标数组的key排好序
+        reset($valArr); //指针指向数组第一个值
+        foreach ($valArr as $key => $value) {
+            $newArr[$key] = $array[$key];
+        }
+        return $newArr;
+    }
+}

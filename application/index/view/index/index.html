@@ -97,8 +97,8 @@
         background: url("https://static.yc.junyiqiche.com/uploads/20190114/3f186a4e02049c4e9f796c47c67aa770.jpg")  no-repeat center top;
 
         /*background-image: url("https://static.yc.junyiqiche.com/uploads/20190114/3f186a4e02049c4e9f796c47c67aa770.jpg");*/
-        background-size: cover;
-    }
+        /* background-size: cover; */
+    /* } */
     .s2{
         width: 50%;
 
@@ -131,26 +131,29 @@
     </div>
 
 </form>
+
+{foreach $data['contestantList']['data']['prize'] as $k => $v}
+
 <div class=" wrap flex_title">
-    <div class="s1" >
+    <div class="s1" style="background: url('{$_SERVER.REQUEST_SCHEME}://{$_SERVER.SERVER_NAME}{$v[applicationimages]}')  no-repeat center top; background-size: cover; width: 50%; height: 15rem;">
     </div>
     <div class="s2 flex_title flex-dc flex-jb " >
 
               <div class="text-center pd" style="margin-top: 10px">
-                  <img src="https://static.yc.junyiqiche.com/uploads/top1.png" alt="" class="" width="30">
-                  <strong class="" style="color: #FF5722">第一名</strong>
+                  <img src="{$v['prize']}" alt="" class="" width="30">
+                  <strong class="" style="color: #FF5722">第{$k + 1}名</strong>
               </div>
                 <div  class="text-center mg-tp pd" style="font-size: 14px">
-                   <strong class=""><i class="fa fa-user" aria-hidden="true"></i> 吴彦祖</strong>
+                   <strong class="application_name"><i class="fa fa-user" aria-hidden="true"></i> {$v['name']}</strong>
                   &nbsp;&nbsp;
                     <span class="">
                       <i class="fa fa-line-chart" >
-                  </i> 2000票
+                  </i> {$v['votes']}票
                   </span>
                 </div>
 
                 <div style="color: rgb(153,153,153);font-size: 12px; " class="desc text-center mg-tp pd">
-                    早出晚归，认认真真作好每一单。
+                    {$v['describe_yourself']}
 
                 </div>
 
@@ -160,29 +163,27 @@
           </div>
     </div>
 </div>
-</div>
+
+{/foreach}
 <div class="layui-row  flex" id="index-flex">
 
-    {foreach $data['contestantList']['data'] as $k => $v}
+    {foreach $data['contestantList']['data']['normal'] as $k => $v}
     <div class=" flex_content">
         <div class="thumbnail item_box" style="">
             <a href="/index/index/playerDetails?application_id={$v['id']}"><img
                     src="{$_SERVER.REQUEST_SCHEME}://{$_SERVER.SERVER_NAME}{$v['applicationimages']}" alt="..."></a>
             <div class="row text-center  " style="margin: 0">
-                <div class=" ">
-                    <h4 style="font-weight: bold" class="application_name pull-left"><i class="fa fa-user"
-                                                                                        aria-hidden="true"></i>
-                        {$v['name']}</h4>
-
-                    &lt;!&ndash; <h4 style="font-weight: bold" class="application_name"><i class="fa {if $v['wechat_user']['sex'] == '1'} fa-male {else/} fa-female {/if}" aria-hidden="true"
-                     ></i> {$v['name']}</h4>&ndash;&gt;
-                    <h4 style="" class="votes-index pull-right">
-                        <i class="fa fa-line-chart" style="font-size: 14px">
-                        </i>{$v['votes']}票
+                <div class="layui-col-xs12 pd_tb10-lr0 text-center" >
+                    <h4 style="font-weight: bold" class="application_name">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        {$v['name']}
                     </h4>
-                </div>
-                <div class=" text-center desc" style="color: rgb(153,153,153);">
-                    {$v['describe_yourself']}
+                    <h4 style="padding-top: 5px;color: #D2D2D2;" class="">
+                        <i class="fa fa-line-chart" style="font-size: 14px">
+                    </i>{$v['votes']}票</h4>
+                    <div class=" text-center desc" style="color: rgb(153,153,153);">
+                        {$v['describe_yourself']}
+                    </div>
                 </div>
                 <div class="layui-col-xs12 voting">
 
