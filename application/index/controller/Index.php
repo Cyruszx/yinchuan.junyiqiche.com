@@ -31,13 +31,6 @@ class Index extends Frontend
     public function index()
     {
 
-//        $contestant = $this->playerInfo(['status' => 'normal'], 'id,name,applicationimages,votes');
-
-        $contestant = Application::field('id,name,applicationimages,votes,describe_yourself')
-            ->with(['wechatUser' => function ($q) {
-                $q->withField('id,sex');
-            }])->where(['status' => 'normal'])->order('id desc')->paginate(20);
-
         $rank = Application::field('id,name,applicationimages,votes,describe_yourself')
             ->with(['wechatUser' => function ($q) {
                 $q->withField('id,sex');
@@ -50,6 +43,13 @@ class Index extends Frontend
         $rank = [$rank[0],$rank[1],$rank[2]];
         $rank = collection($rank)->toArray();
 
+        $contestant = Application::field('id,name,applicationimages,votes,describe_yourself')
+            ->with(['wechatUser' => function ($q) {
+                $q->withField('id,sex');
+            }])->where(['status' => 'normal'])->where('application.id','not in',[$rank[0]['id'],$rank[1]['id'],$rank[2]['id']])->order('id desc')->paginate(20);
+
+
+
         $pages = $contestant->render();
         $contestant = $contestant->toArray();
         foreach ($contestant['data'] as $k => $v) {
@@ -58,13 +58,13 @@ class Index extends Frontend
 
         }
 
-            foreach ($contestant['data'] as $k => $v) {
-                foreach ($rank as $key => $value) {
-                    if ($v['id'] == $value['id']) {
-                        unset($contestant['data'][$k]);
-                    }
-                }
-            }
+//            foreach ($contestant['data'] as $k => $v) {
+//                foreach ($rank as $key => $value) {
+//                    if ($v['id'] == $value['id']) {
+//                        unset($contestant['data'][$k]);
+//                    }
+//                }
+//            }
 
 
         $as = $contestant['data'];
