@@ -79,20 +79,26 @@
             {foreach $data['contestantList']['data'] as $k => $v}
             <div class=" flex_content">
                 <div class="thumbnail item_box" style="">
-                    <a href="/index/index/playerDetails?application_id={$v['id']}" ><img src="{$_SERVER.REQUEST_SCHEME}://{$_SERVER.SERVER_NAME}/{$v['applicationimages']}" alt="..."></a>
+                    <a href="/index/index/playerDetails?application_id={$v['id']}"><img
+                            src="{$_SERVER.REQUEST_SCHEME}://{$_SERVER.SERVER_NAME}{$v['applicationimages']}" alt="..."></a>
                     <div class="row text-center  " style="margin: 0">
-                        <div class="layui-col-xs6 pd_tb10-lr0 pull-left" >
-                            <h4 style="font-weight: bold" class="application_name"><i class="fa {if $v['wechat_user']['sex'] == '1'} fa-male {else/} fa-female {/if}" aria-hidden="true"
-                                                                    ></i> {$v['name']}</h4>
-
-                            <h4 style="font-weight: bold;padding-top: 5px" class="votes-index"><i class="fa fa-line-chart"
-                                                                                    aria-hidden="true"></i>{$v['votes']} 票</h4>
+                        <div class="layui-col-xs12 pd_tb10-lr0 text-center" >
+                            <h4 style="font-weight: bold" class="application_name">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                {$v['name']}
+                            </h4>
+                            <h4 style="padding-top: 5px;color: #D2D2D2;" class="">
+                                <i class="fa fa-line-chart" style="font-size: 14px">
+                                </i>{$v['votes']}票</h4>
+                            <div class=" text-center desc" style="color: rgb(153,153,153);">
+                                {$v['describe_yourself']}
+                            </div>
                         </div>
-
                         <div class="layui-col-xs12 voting">
 
-                            <a href="javascript:void(0)" class="btn btn-info send_vote" style="">投票给<strong style="font-size: 15px" class="text-danger application_id">{$v['id']}</strong>号</a>
-                            
+                            <a href="javascript:void(0)" class="btn btn-info send_vote" style="">投票给<strong
+                                    style="font-size: 16px;color: red;" class=" application_id">{$v['id']}</strong>号</a>
+
                         </div>
                     </div>
                 </div>
