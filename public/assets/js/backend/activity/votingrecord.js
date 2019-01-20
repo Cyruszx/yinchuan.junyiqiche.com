@@ -29,7 +29,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'application.model', title: __('参选人车型')},
                         {field: 'application.daily_running_water', title: __('参选人日均流水'), operate:'BETWEEN'},
                         {field: 'application.service_points', title: __('参选人服务分')},
-                        {field: 'application.applicationimages', title: __('参选人图片'), formatter: Table.api.formatter.images},
+                        {field: 'application.applicationimages', title: __('参选人图片'), formatter: Controller.api.formatter.images},
                         {field: 'application.votes', title: __('参选人得票数')},
                         {field: 'user.nickname', title: __('投票人昵称')},
                         {field: 'user.headimgurl', title: __('投票人头像'), formatter: Table.api.formatter.image, operate: false},
@@ -64,6 +64,17 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     if (row.sex == 2) {
                         return "女";
                     }
+                },
+                images: function (value, row, index) {
+                    value = value === null ? '' : value.toString();
+                    var classname = typeof this.classname !== 'undefined' ? this.classname : 'img-sm img-center';
+                    var arr = value.split(',');
+                    var html = [];
+                    $.each(arr, function (i, value) {
+                        value = value ? value : '/assets/img/blank.gif';
+                        html.push('<a href="' + 'https://yinchuan.junyiqiche.com' + value + '" target="_blank"><img class="' + classname + '" src="' + 'https://yinchuan.junyiqiche.com' + value + '" /></a>');
+                    });
+                    return html.join(' ');
                 },
             }
         }
