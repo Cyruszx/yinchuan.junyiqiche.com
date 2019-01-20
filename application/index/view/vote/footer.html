@@ -308,6 +308,13 @@
             }
         })
     }
+    $('.applicaton').click(function () {
+        if (isOverdue == 2) { 
+            layer.msg('该活动已经结束了哦~');
+
+            return;
+        }
+    });
 
     //投票
     $(".voting").each(function (i) {
