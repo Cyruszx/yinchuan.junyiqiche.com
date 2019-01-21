@@ -24,14 +24,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 columns: [
                     [
                         {checkbox: true},
-                        {field: 'id', title: __('Id'), sortable:true},
+                        {field: 'id', title: __('Id')},
                         {field: 'name', title: __('Name')},
                         {field: 'model', title: __('Model')},
                         {field: 'daily_running_water', title: __('Daily_running_water'), operate:'BETWEEN'},
                         {field: 'service_points', title: __('Service_points')},
                         {field: 'applicationimages', title: __('Applicationimages'), formatter: Controller.api.formatter.images},
-                        {field: 'votes', title: __('Votes'), sortable:true},
-                        // {field: 'wechat_user_id', title: __('Wechat_user_id')},
+                        {field: 'votes', title: __('Votes')},
+                        {field: 'ranking', title: __('排名')},
                         {field: 'operate', title: __('Operate'), table: table,
                         buttons: [
                             /**
@@ -70,7 +70,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 icon: 'fa fa-share', 
                                 title: __('发送中奖信息'), 
                                 extend: 'data-toggle="tooltip"', 
+                                hidden: function (row) {  
 
+                                    if (row.label) {
+                                        return false;
+                                    }
+                                    else if (!row.label) {
+                                        return true;
+                                    }
+                                },
                                     
                             },
                         ], 
@@ -127,7 +135,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 Fast.api.ajax({
 
                                     url: 'activity/application/prize',
-                                    data: {id: row[options.pk]}
+                                    data: {row: row}
  
                                 }, function (data, ret) {
 

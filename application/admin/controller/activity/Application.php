@@ -34,6 +34,52 @@ class Application extends Backend
      * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
      */
 
+    
+    /**
+     * 查看
+     */
+    public function index()
+    {
+        //设置过滤方法
+        $this->request->filter(['strip_tags']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+            $total = $this->model
+                ->where($where)
+                ->order($sort, $order)
+                ->order('votes desc')
+                ->count();
+
+            $list = $this->model
+                ->where($where)
+                ->order($sort, $order)
+                ->order('votes desc')
+                ->limit($offset, $limit)
+                ->select();
+
+            $list = collection($list)->toArray();
+           
+            foreach ($list as $key => $value) {
+                if ($key <= 4) {
+                    $list[$key]['label'] = "yes";
+                }
+                $list[$key]['ranking'] = $key + 1;
+
+            }
+            // pr($list);
+            // die;
+            $result = array("total" => $total, "rows" => $list);
+
+            return json($result);
+        }
+        return $this->view->fetch();
+    }
+
+
     /**
     * 通过CURL发送数据
     * @param $url 请求的URL地址
@@ -81,8 +127,8 @@ class Application extends Backend
 
             $res = json_decode($res, true);
             $token = $res['access_token'];
-            pr($res);
-            die;
+            // pr($res);
+            // die;
             @file_put_contents($file, $token);
         }
         
@@ -97,44 +143,179 @@ class Application extends Backend
      * @param $openid 接收用户的openid
      * return 发送结果
      */
-    public function prize($id = "")
+    public function prize($row = "")
     {
-        $application = $this->model->where('id', $id)->find();
+        pr($row);
+        die;
+        $application = $this->model->where('id', $row['id'])->find();
         $wechat = collection(Wechatuser::where('id', $appliaction['wechat_user_id'])->select())->toArray();
         $tokens = $this->getAccessToken();
-        pr($tokens);
-        die;
+        // pr($tokens);
+        // die;
         //请求模板消息的地址
         $url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' . $tokens;
-        $params = [
-            'touser' => "onGgow5p2M5H2g8EouDYxB4K40PQ",
-            'template_id' => 'Oblr5uXH_fS79gMC8E0mYz0CpUAHnJtdvAC3PWABrsk',//模板ID
-            'url' => '', //点击详情后的URL可以动态定义
-            'data' => 
-                    [
-                      'first' => 
-                         [
-                            'value' => '您好!有访客访给您留言了。',
-                            'color' => '#173177'
-                         ],
-                      'user' => 
-                         [
-                            'value' => '张三',
-                            'color' => '#FF0000'
-                         ],
- 
-                      'ask' => 
-                         [
-                                'value' => '您好,非常关注黎明互联,有没有关于支付宝的视频教程?',
+        
+        //第一名
+        if ($row['ranking'] == 1) {
+            $params = [
+                'touser' => "onGgow5p2M5H2g8EouDYxB4K40PQ",
+                'template_id' => 'Oblr5uXH_fS79gMC8E0mYz0CpUAHnJtdvAC3PWABrsk',//模板ID
+                'url' => '', //点击详情后的URL可以动态定义
+                'data' => 
+                        [
+                          'first' => 
+                             [
+                                'value' => '您好!有访客访给您留言了。',
                                 'color' => '#173177'
-                         ],
-                       'remark' => 
-                         [
-                                'value' => '该用户已注册12天',
-                                'color' => 'blue'
-                         ] 
-                      ]
-        ]; 
+                             ],
+                          'user' => 
+                             [
+                                'value' => '张三',
+                                'color' => '#FF0000'
+                             ],
+     
+                          'ask' => 
+                             [
+                                    'value' => '您好,非常关注黎明互联,有没有关于支付宝的视频教程?',
+                                    'color' => '#173177'
+                             ],
+                           'remark' => 
+                             [
+                                    'value' => '该用户已注册12天',
+                                    'color' => 'blue'
+                             ] 
+                          ]
+            ]; 
+        }
+        //第二名
+        if ($row['ranking'] == 2) {
+            $params = [
+                'touser' => "onGgow5p2M5H2g8EouDYxB4K40PQ",
+                'template_id' => 'Oblr5uXH_fS79gMC8E0mYz0CpUAHnJtdvAC3PWABrsk',//模板ID
+                'url' => '', //点击详情后的URL可以动态定义
+                'data' => 
+                        [
+                          'first' => 
+                             [
+                                'value' => '您好!有访客访给您留言了。',
+                                'color' => '#173177'
+                             ],
+                          'user' => 
+                             [
+                                'value' => '张三',
+                                'color' => '#FF0000'
+                             ],
+     
+                          'ask' => 
+                             [
+                                    'value' => '您好,非常关注黎明互联,有没有关于支付宝的视频教程?',
+                                    'color' => '#173177'
+                             ],
+                           'remark' => 
+                             [
+                                    'value' => '该用户已注册12天',
+                                    'color' => 'blue'
+                             ] 
+                          ]
+            ]; 
+        }
+        //第三名
+        if ($row['ranking'] == 3) {
+            $params = [
+                'touser' => "onGgow5p2M5H2g8EouDYxB4K40PQ",
+                'template_id' => 'Oblr5uXH_fS79gMC8E0mYz0CpUAHnJtdvAC3PWABrsk',//模板ID
+                'url' => '', //点击详情后的URL可以动态定义
+                'data' => 
+                        [
+                          'first' => 
+                             [
+                                'value' => '您好!有访客访给您留言了。',
+                                'color' => '#173177'
+                             ],
+                          'user' => 
+                             [
+                                'value' => '张三',
+                                'color' => '#FF0000'
+                             ],
+     
+                          'ask' => 
+                             [
+                                    'value' => '您好,非常关注黎明互联,有没有关于支付宝的视频教程?',
+                                    'color' => '#173177'
+                             ],
+                           'remark' => 
+                             [
+                                    'value' => '该用户已注册12天',
+                                    'color' => 'blue'
+                             ] 
+                          ]
+            ]; 
+        }
+        //第四名
+        if ($row['ranking'] == 4) {
+            $params = [
+                'touser' => "onGgow5p2M5H2g8EouDYxB4K40PQ",
+                'template_id' => 'Oblr5uXH_fS79gMC8E0mYz0CpUAHnJtdvAC3PWABrsk',//模板ID
+                'url' => '', //点击详情后的URL可以动态定义
+                'data' => 
+                        [
+                          'first' => 
+                             [
+                                'value' => '您好!有访客访给您留言了。',
+                                'color' => '#173177'
+                             ],
+                          'user' => 
+                             [
+                                'value' => '张三',
+                                'color' => '#FF0000'
+                             ],
+     
+                          'ask' => 
+                             [
+                                    'value' => '您好,非常关注黎明互联,有没有关于支付宝的视频教程?',
+                                    'color' => '#173177'
+                             ],
+                           'remark' => 
+                             [
+                                    'value' => '该用户已注册12天',
+                                    'color' => 'blue'
+                             ] 
+                          ]
+            ]; 
+        }
+        //第五名
+        if ($row['ranking'] == 5) {
+            $params = [
+                'touser' => "onGgow5p2M5H2g8EouDYxB4K40PQ",
+                'template_id' => 'Oblr5uXH_fS79gMC8E0mYz0CpUAHnJtdvAC3PWABrsk',//模板ID
+                'url' => '', //点击详情后的URL可以动态定义
+                'data' => 
+                        [
+                          'first' => 
+                             [
+                                'value' => '您好!有访客访给您留言了。',
+                                'color' => '#173177'
+                             ],
+                          'user' => 
+                             [
+                                'value' => '张三',
+                                'color' => '#FF0000'
+                             ],
+     
+                          'ask' => 
+                             [
+                                    'value' => '您好,非常关注黎明互联,有没有关于支付宝的视频教程?',
+                                    'color' => '#173177'
+                             ],
+                           'remark' => 
+                             [
+                                    'value' => '该用户已注册12天',
+                                    'color' => 'blue'
+                             ] 
+                          ]
+            ]; 
+        }
+
         $json = json_encode($params,JSON_UNESCAPED_UNICODE);
 
         return $this->curlPost($url, $json);
