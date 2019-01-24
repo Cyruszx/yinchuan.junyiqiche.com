@@ -40,14 +40,13 @@ class Index extends Frontend
         $rank[1]['prize'] = 'https://static.yc.junyiqiche.com/uploads/top2.png';
         $rank[2]['prize'] = 'https://static.yc.junyiqiche.com/uploads/top3.png';
 
-        $rank = [$rank[0],$rank[1],$rank[2]];
+        $rank = [$rank[0], $rank[1], $rank[2]];
         $rank = collection($rank)->toArray();
 
         $contestant = Application::field('id,name,applicationimages,votes,describe_yourself')
             ->with(['wechatUser' => function ($q) {
                 $q->withField('id,sex');
-            }])->where(['status' => 'normal'])->where('application.id','not in',[$rank[0]['id'],$rank[1]['id'],$rank[2]['id']])->order('id desc')->paginate(20);
-
+            }])->where(['status' => 'normal'])->where('application.id', 'not in', [$rank[0]['id'], $rank[1]['id'], $rank[2]['id']])->order('id desc')->paginate(20);
 
 
         $pages = $contestant->render();
@@ -69,7 +68,7 @@ class Index extends Frontend
 
         $as = $contestant['data'];
         $contestant['data'] = [];
-        $contestant['data']['prize'] = input('page')>=2?[]:$rank;
+        $contestant['data']['prize'] = input('page') >= 2 ? [] : $rank;
         $contestant['data']['normal'] = $as;
         if (!$this->user_id) {
             //已经投票的ID
@@ -218,15 +217,20 @@ class Index extends Frontend
     {
 
         if ($this->request->isAjax()) {
-            // pr($_POST);
-            // die;
+
             $user_id = $_POST['user_id'];
 
             $application_id = $_POST['application_id'];
 
-            // pr($application_id);
-            // pr($user_id);
-            // die;
+            if (Session::has('MEMBER')) {
+                $members = Session::get('MEMBER');
+
+                $members['ipaddress'] = $this->phone_ip();
+
+                Wechatuser::update($members);
+
+            }
+
             $result = Record::create([
                 'wechat_user_id' => $user_id,
                 'application_id' => $application_id
@@ -240,6 +244,28 @@ class Index extends Frontend
         }
 
     }
+
+    /**
+     * 获取手机的IP
+     * @return array|false|string
+     */
+    public function phone_ip()
+    {
+
+        $ip = getenv('REMOTE_ADDR');
+
+        $ip_p = getenv('HTTP_X_FORWARDED_FOR');
+
+        if (($ip_p != "") && ($ip_p != "unknown")) {
+
+            $ip = $ip_p;
+
+        }
+
+        return $ip;
+
+    }
+
 
     /**
      * 得票排序
